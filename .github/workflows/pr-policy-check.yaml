@@ -26,12 +26,14 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GH_REPO: ${{ github.repository }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
-        PR_BODY: ${{ github.event.pull_request.body }}
       run: |
+        # Read PR body safely from the event payload instead of an env var.
+        PR_BODY=$(jq -r '.pull_request.body // ""' "$GITHUB_EVENT_PATH")
+
         # Parse issue reference from PR body.
         # Supports: Closes #N, Fixes #N, Resolves #N (and singular forms),
         # plus full URL variants like https://github.com/owner/repo/issues/N
-        ISSUE_NUMBER=$(echo "$PR_BODY" | grep -oiP '(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+(?:https://github\.com/[^/]+/[^/]+/issues/)?#?(\d+)' | head -1 | grep -oP '\d+$')
+        ISSUE_NUMBER=$(echo "$PR_BODY" | grep -oiP '(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+(?:https://github\.com/[^/]+/[^/]+/issues/)?#?(\d+)' | head -1 | grep -oP '\d+$' || true)
 
         if [ -z "$ISSUE_NUMBER" ]; then
           gh pr edit "$PR_NUMBER" --add-label "policy/no-linked-issue"
@@ -52,7 +54,7 @@ jobs:
         COMMENT
           )"
           gh pr close "$PR_NUMBER"
-          exit 0
+          exit 1
         fi
 
         echo "Found linked issue: #$ISSUE_NUMBER"
@@ -84,7 +86,7 @@ jobs:
         done
 
         if [ -n "$FOUND_BLOCKERS" ]; then
-          gh pr edit "$PR_NUMBER" --add-label "policy/unapproved-issue"
+          gh pr edit "$PR_NUMBER" --add-label "policy/blocked-issue"
           gh pr comment "$PR_NUMBER" --body "$(cat <<COMMENT
         ## Automated Policy Notice
 
@@ -98,7 +100,7 @@ jobs:
         COMMENT
           )"
           gh pr close "$PR_NUMBER"
-          exit 0
+          exit 1
         fi
 
         echo "No blocking labels found on issue #$ISSUE_NUMBER. PR is allowed."
