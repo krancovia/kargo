@@ -16,6 +16,8 @@ promotion of software artifacts through the many stages of their lifecycle.
 
 ## Getting Started
 
+Foo
+
 Read about Kargo in our [docs](https://docs.kargo.io), get hands-on right away
 with our [Quickstart](https://docs.kargo.io/quickstart) tutorial, or watch the
 *Multi-Stage Deployment Pipelines the GitOps Way* talk presented by Jesse Suen &
