@@ -1,0 +1,323 @@
+version: v1
+
+exemptAssociations:
+- MEMBER
+- OWNER
+
+exemptActorSuffixes:
+- "[bot]"
+
+prPolicy:
+  blockingLabels:
+  - kind/proposal
+  - needs discussion
+  - needs research
+  - maintainer only
+  - area/security
+  - size/large
+  - size/x-large
+  - size/xx-large
+
+  noLinkedIssue:
+    addLabels:
+    - policy/no-linked-issue
+    close: true
+    comment: |
+      ## Automated Policy Notice
+
+      This pull request has been closed because it does not reference an unblocked issue.
+
+      All contributions to Kargo require a linked, unblocked issue. This ensures that proposed changes have been reviewed by maintainers before effort is invested.
+
+      **To contribute:**
+
+      1. Open a [Bug Report](https://github.com/akuity/kargo/issues/new?template=bug_report.yml) or [Feature Request](https://github.com/akuity/kargo/issues/new?template=feature_request.yml)
+      2. Wait for a maintainer to review the issue and remove any blocking labels
+      3. Reference the issue in your PR using `Closes #<number>`
+
+      See the [Contributor Guide](https://docs.kargo.io/contributor-guide) for full details.
+
+  blockedIssue:
+    addLabels:
+    - policy/blocked-issue
+    close: true
+    comment: |
+      ## Automated Policy Notice
+
+      This pull request has been closed because the linked issue (#{{.IssueNumber}}) has not been unblocked for external contribution.
+
+      The issue currently has the following blocking label(s): {{.BlockingLabels}}
+
+      Please wait for a maintainer to review and unblock the issue before opening a pull request. An issue is ready for external contribution when all blocking labels have been removed.
+
+      See the [Contributor Guide](https://docs.kargo.io/contributor-guide) for full details.
+
+labelGovernance:
+  issue:
+  - prefix: kind
+    multiple: true
+    values:
+    - bug
+    - chore
+    - discussion
+    - enhancement
+    - proposal
+    - question
+    - refactor
+  - prefix: priority
+    multiple: false
+    values:
+    - urgent
+    - high
+    - normal
+    - low
+  - prefix: area
+    multiple: true
+    values:
+    - planning
+    - devx
+    - documentation
+    - perf
+    - regression
+    - security
+    - tech-debt
+    - test
+    - ux
+    - ci-process
+    - release-process
+    - api-server
+    - charts
+    - cli
+    - controller
+    - crds
+    - external-webhooks
+    - garbage-collector
+    - kubernetes-webhooks
+    - management-controller
+    - ui
+
+  pullRequest:
+  - prefix: kind
+    multiple: true
+    values:
+    - bug
+    - chore
+    - discussion
+    - enhancement
+    - proposal
+    - question
+    - refactor
+  - prefix: area
+    multiple: true
+    values:
+    - planning
+    - devx
+    - documentation
+    - perf
+    - regression
+    - security
+    - tech-debt
+    - test
+    - ux
+    - ci-process
+    - release-process
+    - api-server
+    - charts
+    - cli
+    - controller
+    - crds
+    - external-webhooks
+    - garbage-collector
+    - kubernetes-webhooks
+    - management-controller
+    - ui
+
+labelInheritance:
+  prefixes:
+  - kind/
+  - area/
+
+slashCommands:
+  issue:
+    discuss:
+      description: "Add `needs discussion` label; blocks work"
+      addLabels:
+      - needs discussion
+      comment: |
+        ## Discussion Needed
+
+        A maintainer has indicated that this issue requires further discussion before any implementation work should begin.
+
+        Please do not open a pull request for this issue until the discussion has concluded and all blocking labels have been removed.
+
+    duplicate:
+      description: "Close as duplicate"
+      requiresArg: true
+      addLabels:
+      - duplicate
+      close: true
+      comment: |
+        ## Duplicate
+
+        This has been closed as a duplicate of #{{.Arg}}.
+
+        Please follow the linked issue for updates.
+
+    enterprise:
+      description: "Close as already planned for Kargo Enterprise"
+      close: true
+      comment: |
+        ## Already Planned for Kargo Enterprise
+
+        Thank you for your suggestion. This is something already planned for (or already available in) [Kargo Enterprise](https://akuity.io). As such, it will not be implemented in the open source project.
+
+        For more information about enterprise features and support, please contact [Akuity](https://akuity.io) directly.
+
+    maintainer:
+      description: "Add `maintainer only` label; blocks external contribution"
+      addLabels:
+      - maintainer only
+      comment: |
+        ## Maintainer Only
+
+        A maintainer has indicated that this issue will only be worked on by the maintainer team due to its size, complexity, or sensitivity.
+
+        External pull requests for this issue will be closed.
+
+    research:
+      description: "Add `needs research` label; blocks work"
+      addLabels:
+      - needs research
+      comment: |
+        ## Research Needed
+
+        A maintainer has indicated that this issue needs further investigation or research before any implementation work should begin.
+
+        Please do not open a pull request for this issue until the research has concluded and all blocking labels have been removed.
+
+    unblock:
+      description: "Remove process-blocking labels; unblocks work"
+      removeLabels:
+      - kind/proposal
+      - needs discussion
+      - needs research
+      comment: |
+        ## Unblocked for Contribution
+
+        A maintainer has unblocked this issue for external contribution. Process-blocking labels have been removed.
+
+        If you would like to work on this, please comment to indicate your intent.
+
+        Wait for a maintainer to acknowledge your comment and formally assign the issue to you before starting work. This ensures multiple contributors do not duplicate effort on the same issue.
+
+        When you open a pull request, reference this issue using `Closes #<number>`.
+
+        Before starting, confirm the issue has no remaining blocking labels. See the [Contributor Guide](https://docs.kargo.io/contributor-guide) for details.
+
+  pullRequest:
+    discuss:
+      description: "Add `needs discussion` label; blocks merge"
+      addLabels:
+      - needs discussion
+      comment: |
+        ## Discussion Needed
+
+        A maintainer has indicated that further discussion is needed before this pull request can be merged.
+
+        Please do not merge this PR until the discussion has concluded and all blocking labels have been removed.
+
+    duplicate:
+      description: "Close as duplicate"
+      requiresArg: true
+      addLabels:
+      - duplicate
+      close: true
+      comment: |
+        ## Duplicate
+
+        This has been closed as a duplicate of #{{.Arg}}.
+
+        Please follow the linked issue for updates.
+
+    enterprise:
+      description: "Close as already planned for Kargo Enterprise"
+      close: true
+      comment: |
+        ## Already Planned for Kargo Enterprise
+
+        Thank you for your suggestion. This is something already planned for (or already available in) [Kargo Enterprise](https://akuity.io). As such, it will not be implemented in the open source project.
+
+        For more information about enterprise features and support, please contact [Akuity](https://akuity.io) directly.
+
+    maintainer:
+      description: "Close; linked issue is maintainer-only"
+      close: true
+      comment: |
+        ## Contribution Policy Notice
+
+        This pull request has been closed because the linked issue is designated as maintainer-only. This typically indicates the work requires deep familiarity with Kargo internals or touches particularly sensitive areas of the codebase.
+
+        See the [Contributor Guide](https://docs.kargo.io/contributor-guide) for details.
+
+    premature:
+      description: "Close; linked issue is not unblocked"
+      close: true
+      comment: |
+        ## Contribution Policy Notice
+
+        This pull request has been closed because the linked issue has not been unblocked for external contribution. The issue still carries one or more blocking labels, indicating it is not ready for work.
+
+        Please wait for a maintainer to unblock the issue before opening a pull request. An issue is ready for contribution when all blocking labels have been removed.
+
+        See the [Contributor Guide](https://docs.kargo.io/contributor-guide) for details.
+
+    quality:
+      description: "Close; does not meet quality standards"
+      close: true
+      comment: |
+        ## Quality Standards Notice
+
+        This pull request has been closed because it does not meet the project's quality standards for review.
+
+        All pull requests must be authored and reviewed by a human. AI-assisted coding is acceptable, but every line must be understood and verified by the submitter. Submissions that appear to be generated without meaningful human review will be closed.
+
+        If you believe this was in error, please review the [Contributor Guide](https://docs.kargo.io/contributor-guide), ensure your changes meet project standards, and open a new pull request.
+
+    research:
+      description: "Add `needs research` label; blocks merge"
+      addLabels:
+      - needs research
+      comment: |
+        ## Research Needed
+
+        A maintainer has indicated that further investigation or research is needed before this pull request can be merged.
+
+        Please do not merge this PR until the research has concluded and all blocking labels have been removed.
+
+    unblock:
+      description: "Remove blocking labels; unblocks merge"
+      removeLabels:
+      - needs discussion
+      - needs research
+      comment: |
+        ## Unblocked for Merge
+
+        A maintainer has removed blocking labels from this pull request. Review may now proceed.
+
+    unsolicited:
+      description: "Close; no linked issue"
+      close: true
+      comment: |
+        ## Contribution Policy Notice
+
+        This pull request has been closed because it does not reference an unblocked issue.
+
+        All contributions require a linked, unblocked issue to ensure that proposed changes have been reviewed by maintainers before effort is invested.
+
+        **To contribute:**
+
+        1. Open a [Bug Report](https://github.com/akuity/kargo/issues/new?template=bug_report.yml) or [Feature Request](https://github.com/akuity/kargo/issues/new?template=feature_request.yml)
+        2. Wait for a maintainer to review the issue and remove any blocking labels
+        3. Reference the issue in your PR using `Closes #<number>`
+
+        See the [Contributor Guide](https://docs.kargo.io/contributor-guide) for details.
