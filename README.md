@@ -8,6 +8,8 @@
 [![Discord](https://img.shields.io/discord/1138942074998235187?logo=discord&logoColor=ffffff&label=discord
 )](https://akuity.community)
 
+This is a test
+
 Kargo builds upon
 [GitOps](https://opengitops.dev/) principles to manage and automate the
 promotion of software artifacts through the many stages of their lifecycle.
