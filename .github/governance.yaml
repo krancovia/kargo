@@ -1,11 +1,8 @@
 version: v1
 
-exemptAssociations:
-- MEMBER
-- OWNER
+exemptAssociations: []
 
-exemptActorSuffixes:
-- "[bot]"
+exemptActorSuffixes: []
 
 prPolicy:
   blockingLabels:
