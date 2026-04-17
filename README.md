@@ -14,6 +14,8 @@ promotion of software artifacts through the many stages of their lifecycle.
 
 ![Kargo Dashboard](./docs/static/img/kargo-ui.png)
 
+Unsolicited
+
 ## Getting Started
 
 Read about Kargo in our [docs](https://docs.kargo.io), get hands-on right away
