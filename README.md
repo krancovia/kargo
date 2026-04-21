@@ -14,7 +14,7 @@ promotion of software artifacts through the many stages of their lifecycle.
 
 ![Kargo Dashboard](./docs/static/img/kargo-ui.png)
 
-## Unsolicited change
+## Unsolicited change, pt 2
 
 Read about Kargo in our [docs](https://docs.kargo.io), get hands-on right away
 with our [Quickstart](https://docs.kargo.io/quickstart) tutorial, or watch the
